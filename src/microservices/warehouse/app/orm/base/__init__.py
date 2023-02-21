@@ -1,1 +1,2 @@
 from app.orm.models.pits.pit_bigtable_whole_market_trades_history import pitBigTableWholeMarketTradesHistory
+from app.orm.models.pits.pit_bigtable_bids_and_asks import pitBigTableBidsAndAsks
