@@ -23,7 +23,6 @@ class pitBigTableBidsAndAsks(Base):
     h_pool_address = Column(Text)
     h_protocol_name = Column(Text)
     h_network_name = Column(Text)
-    h_native_chain_token = Column(Text)
 
     pit_symbol = Column(Nullable(Text))
     pit_reserve0 = Column(Nullable(Float))
