@@ -24,5 +24,5 @@ class CexScreenerCBV:
         response_model=ExchangeTickerORMSchema,
         is_permission=True
     )
-    async def on_post__new_whole_market_trades_history(self, request: Request, response: Response, new_whole_market_trades_history: NewWholeMarketTradesHistory):
+    async def on_post(self, request: Request, response: Response, new_whole_market_trades_history: NewWholeMarketTradesHistory):
         pass

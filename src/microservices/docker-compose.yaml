@@ -18,7 +18,7 @@ services:
     depends_on:
       - auth-service
       - c3-research-service
-      - d3-service
+      - d3-research-service
       - warehouse-service
     networks:
       - c3d3_network
@@ -61,15 +61,15 @@ services:
     depends_on:
       - c3-research-postgres
 
-  d3-service:
-    command: python3 app/views/view.py
+  d3-research-service:
+    command: python3 app/__main__.py
     build:
-      context: ./d3
+      context: ./d3research
       dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      POSTGRES_HOST: d3-postgres
+      POSTGRES_HOST: d3-research-postgres
       POSTGRES_USER: d3_db
       POSTGRES_PASSWORD: d3_db
       POSTGRES_DB: d3_db
@@ -78,7 +78,7 @@ services:
     networks:
       - c3d3_network
     depends_on:
-      - d3-postgres
+      - d3-research-postgres
 
   warehouse-service:
     command: python3 app/views/view.py
@@ -133,7 +133,7 @@ services:
     volumes:
       - ./c3-research-postgres:/var/lib/postgresql/data
 
-  d3-postgres:
+  d3-research-postgres:
     image: postgres:13
     environment:
       POSTGRES_HOST: 0.0.0.0
@@ -150,7 +150,7 @@ services:
     ports:
       - '5434:5432'
     volumes:
-      - ./d3-postgres:/var/lib/postgresql/data
+      - ./d3-research-postgres:/var/lib/postgresql/data
 
   warehouse-clickhouse:
     image: clickhouse/clickhouse-server
