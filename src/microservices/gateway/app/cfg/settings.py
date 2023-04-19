@@ -4,9 +4,10 @@ from decouple import config
 
 class AppSettings(BaseSettings):
     API_V1: str = config('API_V1', cast=str, default='/api/v1')
+    C3RESEARCH_SERVICE_ENDPOINT: str = config('C3RESEARCH_SERVICE_ENDPOINT', cast=str, default='/c3research')
 
     AUTH_SERVICE_URL: str = 'http://auth-service:8000'
-    C3_SERVICE_URL: str = 'http://c3-service:8000'
+    C3RESEARCH_SERVICE_URL: str = 'http://c3-research-service:8000'
     D3_SERVICE_URL: str = 'http://d3-service:8000'
     WAREHOUSE_URL: str = 'http://warehouse-service:8000'
 

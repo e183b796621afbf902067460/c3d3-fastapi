@@ -3,7 +3,7 @@ version: "3"
 services:
 
   gateway-service:
-    command: python3 app/views/router/view.py
+    command: python3 app/__main__.py
     build:
       context: ./gateway
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
       PYTHONPATH: ${PYTHONPATH}:/code/app
     depends_on:
       - auth-service
-      - c3-service
+      - c3-research-service
       - d3-service
       - warehouse-service
     networks:
@@ -42,15 +42,15 @@ services:
     depends_on:
       - auth-postgres
 
-  c3-service:
-    command: python3 app/views/view.py
+  c3-research-service:
+    command: python3 app/__main__.py
     build:
-      context: ./c3
+      context: ./c3research
       dockerfile: Dockerfile
     env_file:
       - .env
     environment:
-      POSTGRES_HOST: c3-postgres
+      POSTGRES_HOST: c3-research-postgres
       POSTGRES_USER: c3_db
       POSTGRES_PASSWORD: c3_db
       POSTGRES_DB: c3_db
@@ -59,7 +59,7 @@ services:
     networks:
       - c3d3_network
     depends_on:
-      - c3-postgres
+      - c3-research-postgres
 
   d3-service:
     command: python3 app/views/view.py
@@ -114,7 +114,7 @@ services:
     volumes:
       - ./auth-postgres:/var/lib/postgresql/data
 
-  c3-postgres:
+  c3-research-postgres:
     image: postgres:13
     environment:
       POSTGRES_HOST: 0.0.0.0
@@ -131,7 +131,7 @@ services:
     ports:
       - '5433:5432'
     volumes:
-      - ./c3-postgres:/var/lib/postgresql/data
+      - ./c3-research-postgres:/var/lib/postgresql/data
 
   d3-postgres:
     image: postgres:13
