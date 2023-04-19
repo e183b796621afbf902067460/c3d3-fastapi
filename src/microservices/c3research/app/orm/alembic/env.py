@@ -10,7 +10,7 @@ try:
     from app.orm.base.main import Base
     from app.orm.cfg.engine import ORMSettings
 except ModuleNotFoundError:
-    raise ModuleNotFoundError('Incorrect sys.path argument in c3/ microservice')
+    raise ModuleNotFoundError('Incorrect sys.path argument in c3research/ microservice')
 
 
 # this is the Alembic Config object, which provides
