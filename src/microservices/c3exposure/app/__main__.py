@@ -19,4 +19,4 @@ app.include_router(router=cex_open_order_screener, prefix=f'{settings.API_V1}' +
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run(app='view:app', host='0.0.0.0')
+    uvicorn.run(app='__main__:app', host='0.0.0.0')

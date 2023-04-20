@@ -20,6 +20,7 @@ services:
       - c3-research-service
       - c3-exposure-service
       - d3-research-service
+      - d3-exposure-service
       - warehouse-service
     networks:
       - c3d3_network
@@ -99,6 +100,25 @@ services:
       - c3d3_network
     depends_on:
       - d3-research-postgres
+
+  d3-exposure-service:
+    command: python3 app/__main__.py
+    build:
+      context: ./d3exposure
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: d3-exposure-postgres
+      POSTGRES_USER: d3_db
+      POSTGRES_PASSWORD: d3_db
+      POSTGRES_DB: d3_db
+
+      PYTHONPATH: ${PYTHONPATH}:/code/app
+    networks:
+      - c3d3_network
+    depends_on:
+      - d3-exposure-postgres
 
   warehouse-service:
     command: python3 app/views/view.py
@@ -190,6 +210,25 @@ services:
       - '5435:5432'
     volumes:
       - ./d3-research-postgres:/var/lib/postgresql/data
+
+  d3-exposure-postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_HOST: 0.0.0.0
+      POSTGRES_USER: d3_db
+      POSTGRES_PASSWORD: d3_db
+      POSTGRES_DB: d3_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "d3_db" ]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      - c3d3_network
+    ports:
+      - '5436:5432'
+    volumes:
+      - ./d3-exposure-postgres:/var/lib/postgresql/data
 
   warehouse-clickhouse:
     image: clickhouse/clickhouse-server
