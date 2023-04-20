@@ -18,6 +18,7 @@ services:
     depends_on:
       - auth-service
       - c3-research-service
+      - c3-exposure-service
       - d3-research-service
       - warehouse-service
     networks:
@@ -60,6 +61,25 @@ services:
       - c3d3_network
     depends_on:
       - c3-research-postgres
+
+  c3-exposure-service:
+    command: python3 app/__main__.py
+    build:
+      context: ./c3exposure
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: c3-exposure-postgres
+      POSTGRES_USER: c3_db
+      POSTGRES_PASSWORD: c3_db
+      POSTGRES_DB: c3_db
+
+      PYTHONPATH: ${PYTHONPATH}:/code/app
+    networks:
+      - c3d3_network
+    depends_on:
+      - c3-exposure-postgres
 
   d3-research-service:
     command: python3 app/__main__.py
@@ -133,6 +153,25 @@ services:
     volumes:
       - ./c3-research-postgres:/var/lib/postgresql/data
 
+  c3-exposure-postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_HOST: 0.0.0.0
+      POSTGRES_USER: c3_db
+      POSTGRES_PASSWORD: c3_db
+      POSTGRES_DB: c3_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "c3_db" ]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      - c3d3_network
+    ports:
+      - '5434:5432'
+    volumes:
+      - ./c3-exposure-postgres:/var/lib/postgresql/data
+
   d3-research-postgres:
     image: postgres:13
     environment:
@@ -148,7 +187,7 @@ services:
     networks:
       - c3d3_network
     ports:
-      - '5434:5432'
+      - '5435:5432'
     volumes:
       - ./d3-research-postgres:/var/lib/postgresql/data
 
