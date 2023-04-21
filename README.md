@@ -28,12 +28,12 @@ cd c3d3-fastapi-research/src/microservices
 docker-compose up -d --build
 ```
 
-- Check C3 and D3 container's ID and copy them:
+- Check microservices container's ID and copy them:
 ```
 docker ps
 ```
 
-- Create AuthDB, C3Vault and D3Vault instances:
+- Create PostgreSQL instance in each microservice:
 ```
 docker exec -it <CONTAINER ID> python3 app/orm/scripts/create.py
 ```
