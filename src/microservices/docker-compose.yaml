@@ -4,6 +4,7 @@ services:
 
   gateway-service:
     command: python3 app/__main__.py
+    restart: always
     build:
       context: ./gateway
       dockerfile: Dockerfile
@@ -27,6 +28,7 @@ services:
 
   auth-service:
     command: python3 app/views/view.py
+    restart: always
     build:
       context: ./auth
       dockerfile: Dockerfile
@@ -46,6 +48,7 @@ services:
 
   c3-research-service:
     command: python3 app/__main__.py
+    restart: always
     build:
       context: ./c3research
       dockerfile: Dockerfile
@@ -65,6 +68,7 @@ services:
 
   c3-exposure-service:
     command: python3 app/__main__.py
+    restart: always
     build:
       context: ./c3exposure
       dockerfile: Dockerfile
@@ -84,6 +88,7 @@ services:
 
   d3-research-service:
     command: python3 app/__main__.py
+    restart: always
     build:
       context: ./d3research
       dockerfile: Dockerfile
@@ -103,6 +108,7 @@ services:
 
   d3-exposure-service:
     command: python3 app/__main__.py
+    restart: always
     build:
       context: ./d3exposure
       dockerfile: Dockerfile
@@ -122,6 +128,7 @@ services:
 
   warehouse-service:
     command: python3 app/views/view.py
+    restart: always
     build:
       context: ./warehouse
       dockerfile: Dockerfile
